@@ -174,7 +174,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &541064332
 CapsuleCollider:
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions: {fileID: -944628639613478452, guid: c78bc333bd2f4ff4b98660a2c47810f6, type: 3}
   moveVector: {x: 0, y: 0}
-  mousePosition: {x: 0, y: 0}
+  mouseInput: {x: 0, y: 0}
   horizontal: 0
   vertical: 0
 --- !u!114 &541064334
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 963194227}
   moveSpeed: 5
+  xSensitivity: 20
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
