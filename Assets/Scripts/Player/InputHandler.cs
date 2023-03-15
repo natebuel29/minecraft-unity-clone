@@ -12,6 +12,7 @@ namespace NB
         private InputAction movementAction;
         private InputAction mouseX;
         private InputAction mouseY;
+        PlayerManager playerManager;
 
         [Header("Player Inputs")]
         public Vector2 moveVector;
@@ -27,9 +28,10 @@ namespace NB
             mouseX = actions.FindActionMap("PlayerMovement").FindAction("MouseX");
             mouseY = actions.FindActionMap("PlayerMovement").FindAction("MouseY");
 
-
             // for the "jump" action, we add a callback method for when it is performed
-            // actions.FindActionMap("gameplay").FindAction("jump").performed += OnJump;
+            actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
+
+            playerManager = GetComponent<PlayerManager>();
         }
         // Start is called before the first frame update
         void Start()
@@ -57,15 +59,22 @@ namespace NB
 
 
 
-        private void OnJump(InputAction.CallbackContext context) { }
+        private void OnJump(InputAction.CallbackContext context)
+        {
+            Debug.Log("yo");
+            playerManager.jump_flag = true;
+        }
 
         void OnEnable()
         {
             actions.FindActionMap("PlayerMovement").Enable();
+            actions.FindActionMap("PlayerActions").Enable();
+
         }
         void OnDisable()
         {
             actions.FindActionMap("PlayerMovement").Disable();
+            actions.FindActionMap("PlayerActions").Disable();
         }
     }
 }

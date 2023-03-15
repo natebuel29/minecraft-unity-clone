@@ -9,24 +9,34 @@ namespace NB
     {
         Rigidbody rb;
         InputHandler inputHandler;
+        PlayerManager playerManager;
         public Camera mainCam;
 
         [SerializeField]
         float moveSpeed = 25;
         [SerializeField]
         float xSensitivity = 20;
+        [SerializeField]
+        float ySensitivity = 20;
+        [SerializeField]
+        float yRotation;
+        [SerializeField]
+        float xRotation;
+        [SerializeField]
+        float xRotationClamp = 40;
+
 
         // Start is called before the first frame update
         void Start()
         {
             rb = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
+            playerManager = GetComponent<PlayerManager>();
         }
 
         private void Update()
         {
-            HandleRotation();
-
+            // HandleRotation();
         }
 
         private void FixedUpdate()
@@ -38,31 +48,36 @@ namespace NB
         {
             float vertical = inputHandler.vertical;
             float horizontal = inputHandler.horizontal;
+            Vector3 movementVector = Vector3.zero;
+            movementVector += transform.forward * inputHandler.horizontal;
+            movementVector += transform.right * inputHandler.vertical;
+            movementVector = movementVector.normalized * moveSpeed;
+            Debug.DrawLine(transform.position, transform.position + Vector3.down * 2, Color.red, 0.1f);
+            if (playerManager.jump_flag)
+            {
+                movementVector += Vector3.up * 5f;
+                playerManager.jump_flag = false;
+            }
+            else
+            {
+                movementVector.y = rb.velocity.y;
+            }
 
-            Vector3 movement = new Vector3(vertical, 0, horizontal) * moveSpeed;
-
-            rb.velocity = movement;
+            rb.velocity = movementVector;
         }
 
         private void HandleRotation()
         {
+            float mouseX = inputHandler.mouseInput.x * Time.deltaTime * xSensitivity;
+            float mouseY = inputHandler.mouseInput.y * Time.deltaTime * ySensitivity;
 
-            //TODO: Calculcate target rotation from mouse input
-            // rotate player on y axis
-            //rotate camera on x axis
-            //Clamp Y rotation imbetween a max and min look angle
-            Vector3 targetDirectionX = new Vector3(0, inputHandler.mouseInput.x, 0);
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -xRotationClamp, xRotationClamp);
 
-            Quaternion targetRotation = Quaternion.Euler(targetDirectionX);
-            transform.Rotate(transform.up, inputHandler.mouseInput.x * xSensitivity * Time.deltaTime);
+            yRotation += mouseX;
 
-
-            // Vector3 targetDirectionY = new Vector3(inputHandler.mousePosition.y, 0, 0);
-
-            // targetRotation = Quaternion.Euler(targetDirectionY);
-
-            // mainCam.transform.rotation = Quaternion.Slerp(mainCam.transform.rotation, targetRotation, Time.deltaTime);
-
+            transform.rotation = Quaternion.Euler(0, yRotation, 0);
+            mainCam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         }
     }
 }
