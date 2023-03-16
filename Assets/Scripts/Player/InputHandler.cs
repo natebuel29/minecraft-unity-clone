@@ -61,7 +61,6 @@ namespace NB
 
         private void OnJump(InputAction.CallbackContext context)
         {
-            Debug.Log("yo");
             playerManager.jump_flag = true;
         }
 

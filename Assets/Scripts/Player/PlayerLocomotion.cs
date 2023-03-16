@@ -10,7 +10,10 @@ namespace NB
         Rigidbody rb;
         InputHandler inputHandler;
         PlayerManager playerManager;
+        public LayerMask layerMask;
         public Camera mainCam;
+
+        public Transform rayCastPointTransform;
 
         [SerializeField]
         float moveSpeed = 25;
@@ -24,6 +27,8 @@ namespace NB
         float xRotation;
         [SerializeField]
         float xRotationClamp = 40;
+        [SerializeField]
+        float playerHeight = 2f;
 
 
         // Start is called before the first frame update
@@ -36,7 +41,7 @@ namespace NB
 
         private void Update()
         {
-            // HandleRotation();
+            HandleRotation();
         }
 
         private void FixedUpdate()
@@ -48,18 +53,31 @@ namespace NB
         {
             float vertical = inputHandler.vertical;
             float horizontal = inputHandler.horizontal;
+            bool canJump = false;
             Vector3 movementVector = Vector3.zero;
-            movementVector += transform.forward * inputHandler.horizontal;
-            movementVector += transform.right * inputHandler.vertical;
+            movementVector += transform.forward * inputHandler.horizontal * Time.fixedDeltaTime;
+            movementVector += transform.right * inputHandler.vertical * Time.fixedDeltaTime;
             movementVector = movementVector.normalized * moveSpeed;
-            Debug.DrawLine(transform.position, transform.position + Vector3.down * 2, Color.red, 0.1f);
-            if (playerManager.jump_flag)
+
+            if (Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.5f, layerMask))
+            {
+                Debug.Log("can jump");
+                canJump = true;
+            }
+            else
+            {
+                Debug.Log("cant jump");
+                canJump = false;
+            }
+
+            if (playerManager.jump_flag && canJump)
             {
                 movementVector += Vector3.up * 5f;
                 playerManager.jump_flag = false;
             }
             else
             {
+                playerManager.jump_flag = false;
                 movementVector.y = rb.velocity.y;
             }
 
