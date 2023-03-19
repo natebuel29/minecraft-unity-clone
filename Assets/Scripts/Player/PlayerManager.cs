@@ -6,13 +6,25 @@ namespace NB
 {
     public class PlayerManager : MonoBehaviour
     {
-        [Header("Player Flags")]
-        public bool jump_flag;
+        PlayerLocomotion playerLocomotion;
+        InputHandler inputHandler;
 
-        // Update is called once per frame
-        void LateUpdate()
+        private void Awake()
         {
-            // jump_flag = false;
+            playerLocomotion = GetComponent<PlayerLocomotion>();
+            inputHandler = GetComponent<InputHandler>();
+        }
+
+        void Update()
+        {
+            float delta = Time.deltaTime;
+            playerLocomotion.HandleRotation(delta);
+        }
+
+        void FixedUpdate()
+        {
+            float delta = Time.fixedDeltaTime;
+            playerLocomotion.HandleMovement(delta);
         }
     }
 }

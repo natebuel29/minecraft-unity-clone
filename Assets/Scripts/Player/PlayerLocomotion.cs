@@ -39,55 +39,43 @@ namespace NB
             playerManager = GetComponent<PlayerManager>();
         }
 
-        private void Update()
-        {
-            HandleRotation();
-        }
-
-        private void FixedUpdate()
-        {
-            MovePlayer();
-        }
-
-        private void MovePlayer()
+        public void HandleMovement(float delta)
         {
             float vertical = inputHandler.vertical;
             float horizontal = inputHandler.horizontal;
             bool canJump = false;
             Vector3 movementVector = Vector3.zero;
-            movementVector += transform.forward * inputHandler.horizontal * Time.fixedDeltaTime;
-            movementVector += transform.right * inputHandler.vertical * Time.fixedDeltaTime;
+            movementVector += transform.forward * inputHandler.horizontal * delta;
+            movementVector += transform.right * inputHandler.vertical * delta;
             movementVector = movementVector.normalized * moveSpeed;
 
             if (Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.5f, layerMask))
             {
-                Debug.Log("can jump");
                 canJump = true;
             }
             else
             {
-                Debug.Log("cant jump");
                 canJump = false;
             }
 
-            if (playerManager.jump_flag && canJump)
+            if (inputHandler.jump_flag && canJump)
             {
                 movementVector += Vector3.up * 5f;
-                playerManager.jump_flag = false;
+                inputHandler.jump_flag = false;
             }
             else
             {
-                playerManager.jump_flag = false;
+                inputHandler.jump_flag = false;
                 movementVector.y = rb.velocity.y;
             }
 
             rb.velocity = movementVector;
         }
 
-        private void HandleRotation()
+        public void HandleRotation(float delta)
         {
-            float mouseX = inputHandler.mouseInput.x * Time.deltaTime * xSensitivity;
-            float mouseY = inputHandler.mouseInput.y * Time.deltaTime * ySensitivity;
+            float mouseX = inputHandler.mouseInput.x * delta * xSensitivity;
+            float mouseY = inputHandler.mouseInput.y * delta * ySensitivity;
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -xRotationClamp, xRotationClamp);

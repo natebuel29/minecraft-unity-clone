@@ -20,6 +20,8 @@ namespace NB
         public float horizontal;
         public float vertical;
 
+        public bool jump_flag;
+
 
         private void Awake()
         {
@@ -32,14 +34,7 @@ namespace NB
             actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
 
             playerManager = GetComponent<PlayerManager>();
-        }
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
+        }        // Update is called once per frame
         void Update()
         {
             HandleMovementInput();
@@ -61,7 +56,7 @@ namespace NB
 
         private void OnJump(InputAction.CallbackContext context)
         {
-            playerManager.jump_flag = true;
+            jump_flag = true;
         }
 
         void OnEnable()
