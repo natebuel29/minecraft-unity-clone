@@ -21,7 +21,7 @@ namespace NB
         public float vertical;
 
         public bool jump_flag;
-
+        public bool lockMouse_flag;
 
         private void Awake()
         {
@@ -32,6 +32,7 @@ namespace NB
 
             // for the "jump" action, we add a callback method for when it is performed
             actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
+            actions.FindActionMap("PlayerActions").FindAction("LockOrUnlockMouse").performed += OnLockUnlockMouse;
 
             playerManager = GetComponent<PlayerManager>();
         }        // Update is called once per frame
@@ -57,6 +58,12 @@ namespace NB
         private void OnJump(InputAction.CallbackContext context)
         {
             jump_flag = true;
+        }
+
+        private void OnLockUnlockMouse(InputAction.CallbackContext context)
+        {
+            lockMouse_flag = !lockMouse_flag;
+            playerManager.ShouldLockMouse(lockMouse_flag);
         }
 
         void OnEnable()
