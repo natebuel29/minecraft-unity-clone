@@ -33,6 +33,7 @@ namespace NB
             // for the "jump" action, we add a callback method for when it is performed
             actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
             actions.FindActionMap("PlayerActions").FindAction("LockOrUnlockMouse").performed += OnLockUnlockMouse;
+            actions.FindActionMap("PlayerActions").FindAction("PlaceBlock").performed += OnPlaceBlock;
 
             playerManager = GetComponent<PlayerManager>();
         }        // Update is called once per frame
@@ -64,6 +65,11 @@ namespace NB
         {
             lockMouse_flag = !lockMouse_flag;
             playerManager.ShouldLockMouse(lockMouse_flag);
+        }
+
+        private void OnPlaceBlock(InputAction.CallbackContext context)
+        {
+            playerManager.PlaceBlock();
         }
 
         void OnEnable()

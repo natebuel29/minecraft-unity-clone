@@ -12,7 +12,7 @@ namespace NB
         PlayerManager playerManager;
         public LayerMask layerMask;
         public Camera mainCam;
-
+        public Transform direction;
         public Transform rayCastPointTransform;
 
         [SerializeField]
@@ -45,8 +45,8 @@ namespace NB
             float horizontal = inputHandler.horizontal;
             bool canJump = false;
             Vector3 movementVector = Vector3.zero;
-            movementVector += transform.forward * inputHandler.horizontal * delta;
-            movementVector += transform.right * inputHandler.vertical * delta;
+            movementVector += direction.transform.forward * inputHandler.horizontal * delta;
+            movementVector += direction.transform.right * inputHandler.vertical * delta;
             movementVector = movementVector.normalized * moveSpeed;
 
             if (Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.5f, layerMask))
@@ -82,8 +82,8 @@ namespace NB
 
             yRotation += mouseX;
 
-            transform.rotation = Quaternion.Euler(0, yRotation, 0);
             mainCam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            direction.rotation = Quaternion.Euler(0, yRotation, 0);
         }
     }
 }
