@@ -13,6 +13,7 @@ namespace NB
         public LayerMask layerMask;
         public Camera mainCam;
         public Transform direction;
+        public Transform axeRotationPoint;
         public Transform rayCastPointTransform;
 
         [SerializeField]
@@ -81,7 +82,7 @@ namespace NB
             xRotation = Mathf.Clamp(xRotation, -xRotationClamp, xRotationClamp);
 
             yRotation += mouseX;
-
+            //axeRotationPoint.rotation = Quaternion.Euler(xRotation, yRotation, 0);
             mainCam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
             direction.rotation = Quaternion.Euler(0, yRotation, 0);
         }
