@@ -21,6 +21,7 @@ namespace NB
         public float vertical;
 
         public bool jump_flag;
+        public bool mine_flag;
         public bool lockMouse_flag;
 
         private void Awake()
@@ -34,16 +35,19 @@ namespace NB
             actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
             actions.FindActionMap("PlayerActions").FindAction("LockOrUnlockMouse").performed += OnLockUnlockMouse;
             actions.FindActionMap("PlayerActions").FindAction("PlaceBlock").performed += OnPlaceBlock;
-
             playerManager = GetComponent<PlayerManager>();
         }        // Update is called once per frame
         void Update()
         {
             HandleMovementInput();
-
+            HandleMineInput();
             mouseInput.x = mouseX.ReadValue<float>();
             mouseInput.y = mouseY.ReadValue<float>();
+        }
 
+        private void HandleMineInput()
+        {
+            mine_flag = actions.FindActionMap("PlayerActions").FindAction("Mine").phase == UnityEngine.InputSystem.InputActionPhase.Performed;
         }
 
         private void HandleMovementInput()

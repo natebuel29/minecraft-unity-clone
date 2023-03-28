@@ -11,6 +11,7 @@ namespace NB
         InputHandler inputHandler;
         UIManager uiManager;
         bool canPlace;
+        AnimationHandler animationHandler;
 
         public GameObject block;
 
@@ -20,6 +21,7 @@ namespace NB
             playerLocomotion = GetComponent<PlayerLocomotion>();
             inputHandler = GetComponent<InputHandler>();
             uiManager = FindObjectOfType<UIManager>();
+            animationHandler = GetComponent<AnimationHandler>();
             canPlace = false;
         }
 
@@ -41,6 +43,7 @@ namespace NB
         {
             float delta = Time.fixedDeltaTime;
             playerLocomotion.HandleMovement(delta);
+            HandleMineBlock(delta);
         }
 
         public void PlaceBlock()
@@ -62,6 +65,11 @@ namespace NB
                 Debug.Log(gridPosition);
                 Instantiate(block, gridPosition, Quaternion.identity);
             }
+        }
+
+        public void HandleMineBlock(float delta)
+        {
+            animationHandler.PlayMineAnimation(inputHandler.mine_flag);
         }
 
         void HandleRaycast()
