@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 541064334}
   - component: {fileID: 541064335}
   - component: {fileID: 541064336}
+  - component: {fileID: 541064337}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -528,6 +529,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axeAnimator: {fileID: 1444640623}
+--- !u!114 &541064337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541064328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4b3a867fde4c448b10f75f12fcdbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: []
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,29 +878,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crossHair: {fileID: 1972692444}
---- !u!1 &1444640621 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9082213576700826379, guid: 63cceda709e058d49bb4deef4607a570, type: 3}
-  m_PrefabInstance: {fileID: 1890293739}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1444640623 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1444640623, guid: 63cceda709e058d49bb4deef4607a570, type: 3}
   m_PrefabInstance: {fileID: 1890293739}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1444640624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1444640621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f599a62b5a04846b90d3d21ef7e4db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationHandler: {fileID: 541064336}
 --- !u!1001 &1890293739
 PrefabInstance:
   m_ObjectHideFlags: 0

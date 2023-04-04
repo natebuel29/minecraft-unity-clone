@@ -10,8 +10,8 @@ namespace NB
         PlayerLocomotion playerLocomotion;
         InputHandler inputHandler;
         UIManager uiManager;
-        bool canPlace;
         AnimationHandler animationHandler;
+        PlayerInventory playerInventory;
 
         public GameObject block;
 
@@ -22,7 +22,7 @@ namespace NB
             inputHandler = GetComponent<InputHandler>();
             uiManager = FindObjectOfType<UIManager>();
             animationHandler = GetComponent<AnimationHandler>();
-            canPlace = false;
+            playerInventory = GetComponent<PlayerInventory>();
         }
 
         private void Start()
@@ -52,17 +52,13 @@ namespace NB
             if (Physics.Raycast(ray, out RaycastHit hit, 5))
             {
                 Vector3 pos = hit.point;
-                Debug.Log("Before adding normal" + pos);
-                Debug.Log("normal is " + hit.normal);
                 pos += hit.normal * 0.1f;
-                Debug.Log("after adding normal" + pos);
                 Vector3 gridPosition = new Vector3(
                     Mathf.RoundToInt(pos.x),
                     Mathf.RoundToInt(pos.y),
                     Mathf.RoundToInt(pos.z)
                 );
                 gridPosition.y += 0.3f;
-                Debug.Log(gridPosition);
                 Instantiate(block, gridPosition, Quaternion.identity);
             }
         }
@@ -70,6 +66,20 @@ namespace NB
         public void HandleMineBlock(float delta)
         {
             animationHandler.PlayMineAnimation(inputHandler.mine_flag);
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            if (Physics.Raycast(ray, out RaycastHit hit, 5) && inputHandler.mine_flag)
+            {
+                if (hit.collider.tag == "Block")
+                {
+                    if (playerInventory.canAddBlock())
+                    {
+                        GameObject hitGameObject = hit.collider.gameObject;
+                        Block hitBlock = hitGameObject.GetComponent<BlockManager>().block;
+                        playerInventory.AddItem(hitBlock);
+                        Destroy(hitGameObject);
+                    }
+                }
+            }
         }
 
         void HandleRaycast()
