@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NB
 {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Block", order = 1)]
-    public class Block : ScriptableObject
+    public class Block : Item
     {
         [Header("Block Information")]
         public Sprite blockIcon;

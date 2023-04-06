@@ -13,7 +13,10 @@ namespace NB
         AnimationHandler animationHandler;
         PlayerInventory playerInventory;
 
+        InventoryItemSlot inventoryItemSlot;
+
         public GameObject block;
+        public Block blockBlock;
 
 
         private void Awake()
@@ -23,6 +26,7 @@ namespace NB
             uiManager = FindObjectOfType<UIManager>();
             animationHandler = GetComponent<AnimationHandler>();
             playerInventory = GetComponent<PlayerInventory>();
+            inventoryItemSlot = FindObjectOfType<InventoryItemSlot>();
         }
 
         private void Start()
@@ -30,6 +34,8 @@ namespace NB
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             inputHandler.lockMouse_flag = true;
+            inventoryItemSlot.SetItem(blockBlock);
+
         }
 
         void Update()
