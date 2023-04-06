@@ -36,7 +36,6 @@ namespace NB
 
         public void SetItemImage(Item item)
         {
-            Debug.Log(item.itemIcon);
             itemImage.enabled = true;
             itemImage.sprite = item.itemIcon;
         }
