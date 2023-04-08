@@ -11,7 +11,5 @@ namespace NB
         public Sprite blockIcon;
         public string blockName;
         public GameObject blockPrefab;
-        public int stackedInventoryCount = 99;
-
     }
 }

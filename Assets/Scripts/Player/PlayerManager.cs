@@ -11,12 +11,8 @@ namespace NB
         InputHandler inputHandler;
         UIManager uiManager;
         AnimationHandler animationHandler;
-        PlayerInventory playerInventory;
-
-        InventoryItemSlot inventoryItemSlot;
-
+        InventorySlotManager inventorySlotManager;
         public GameObject block;
-        public Block blockBlock;
 
 
         private void Awake()
@@ -25,8 +21,7 @@ namespace NB
             inputHandler = GetComponent<InputHandler>();
             uiManager = FindObjectOfType<UIManager>();
             animationHandler = GetComponent<AnimationHandler>();
-            playerInventory = GetComponent<PlayerInventory>();
-            inventoryItemSlot = FindObjectOfType<InventoryItemSlot>();
+            inventorySlotManager = FindObjectOfType<InventorySlotManager>();
         }
 
         private void Start()
@@ -34,7 +29,6 @@ namespace NB
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             inputHandler.lockMouse_flag = true;
-            inventoryItemSlot.SetItem(blockBlock);
 
         }
 
@@ -49,10 +43,10 @@ namespace NB
         {
             float delta = Time.fixedDeltaTime;
             playerLocomotion.HandleMovement(delta);
-            HandleMineBlock(delta);
+            animationHandler.PlayMineAnimation(inputHandler.mine_flag);
         }
 
-        public void PlaceBlock()
+        public void HandlePlaceBlock()
         {
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             if (Physics.Raycast(ray, out RaycastHit hit, 5))
@@ -67,23 +61,23 @@ namespace NB
                 gridPosition.y += 0.3f;
                 Instantiate(block, gridPosition, Quaternion.identity);
             }
+
         }
 
-        public void HandleMineBlock(float delta)
+        public void HandleMineBlock()
         {
-            animationHandler.PlayMineAnimation(inputHandler.mine_flag);
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             if (Physics.Raycast(ray, out RaycastHit hit, 5) && inputHandler.mine_flag)
             {
+
                 if (hit.collider.tag == "Block")
                 {
-                    if (playerInventory.canAddBlock())
-                    {
-                        GameObject hitGameObject = hit.collider.gameObject;
-                        Block hitBlock = hitGameObject.GetComponent<BlockManager>().block;
-                        playerInventory.AddItem(hitBlock);
-                        Destroy(hitGameObject);
-                    }
+
+                    GameObject hitGameObject = hit.collider.gameObject;
+                    Block hitBlock = hitGameObject.GetComponent<BlockManager>().block;
+                    inventorySlotManager.AddItemToInventorySlot(hitBlock);
+                    Destroy(hitGameObject);
+
                 }
             }
         }

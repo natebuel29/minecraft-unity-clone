@@ -12,6 +12,7 @@ namespace NB
         private InputAction movementAction;
         private InputAction mouseX;
         private InputAction mouseY;
+        private InputAction mineButton;
         PlayerManager playerManager;
 
         [Header("Player Inputs")]
@@ -31,6 +32,9 @@ namespace NB
             mouseX = actions.FindActionMap("PlayerMovement").FindAction("MouseX");
             mouseY = actions.FindActionMap("PlayerMovement").FindAction("MouseY");
 
+
+            mineButton = actions.FindActionMap("PlayerActions").FindAction("Mine");
+
             // for the "jump" action, we add a callback method for when it is performed
             actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
             actions.FindActionMap("PlayerActions").FindAction("LockOrUnlockMouse").performed += OnLockUnlockMouse;
@@ -40,14 +44,9 @@ namespace NB
         void Update()
         {
             HandleMovementInput();
-            HandleMineInput();
             mouseInput.x = mouseX.ReadValue<float>();
             mouseInput.y = mouseY.ReadValue<float>();
-        }
-
-        private void HandleMineInput()
-        {
-            mine_flag = actions.FindActionMap("PlayerActions").FindAction("Mine").phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            mine_flag = Mouse.current.leftButton.isPressed;
         }
 
         private void HandleMovementInput()
@@ -57,8 +56,6 @@ namespace NB
             vertical = moveVector.x;
             horizontal = moveVector.y;
         }
-
-
 
         private void OnJump(InputAction.CallbackContext context)
         {
@@ -73,7 +70,7 @@ namespace NB
 
         private void OnPlaceBlock(InputAction.CallbackContext context)
         {
-            playerManager.PlaceBlock();
+            playerManager.HandlePlaceBlock();
         }
 
         void OnEnable()
