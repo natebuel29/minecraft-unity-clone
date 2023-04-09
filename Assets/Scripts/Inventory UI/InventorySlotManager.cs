@@ -29,30 +29,31 @@ namespace NB
             bool inToolbar = false;
             int i = 0;
 
-            while (!inToolbar && i < inventoryItemSlots.Length)
+            //Check to see if item is currently in toolbar
+            foreach (InventoryItemSlot itemSlot in inventoryItemSlots)
             {
-                InventoryItemSlot tempSlot = inventoryItemSlots[i];
-
-                if (tempSlot.isSlotTaken)
+                if (itemSlot.isSlotTaken)
                 {
-                    if (tempSlot.slotItem.itemName == item.itemName) // add this in broke it -- why?!?!? && tempSlot.slotItemCount < tempSlot.slotItem.stackedInventoryCount)
+                    //if item name in current item slot matches name of new item AND itemCount is less than max item count, then it can be added
+                    //to this slot
+                    if (itemSlot.slotItem.itemName == item.itemName && itemSlot.slotItemCount < itemSlot.slotItem.stackedInventoryCount)
                     {
                         inToolbar = true;
+                        break;
                     }
                 }
-                else
-                {
-                    i++;
-                }
+                i++;
             }
 
             if (inToolbar)
             {
+                //incrememnt item count if in toolbar
                 InventoryItemSlot itemSlotToUpdate = inventoryItemSlots[i];
                 itemSlotToUpdate.AddItem();
             }
             else
             {
+                //find first open slot and SetItem of that slot
                 foreach (InventoryItemSlot itemSlot in inventoryItemSlots)
                 {
                     if (itemSlot.isSlotTaken == false)
