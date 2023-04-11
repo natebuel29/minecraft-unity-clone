@@ -14,6 +14,7 @@ namespace NB
         private InputAction mouseY;
         private InputAction mineButton;
         PlayerManager playerManager;
+        InventorySlotManager inventorySlotManager;
 
         [Header("Player Inputs")]
         public Vector2 moveVector;
@@ -39,7 +40,17 @@ namespace NB
             actions.FindActionMap("PlayerActions").FindAction("Jump").performed += OnJump;
             actions.FindActionMap("PlayerActions").FindAction("LockOrUnlockMouse").performed += OnLockUnlockMouse;
             actions.FindActionMap("PlayerActions").FindAction("PlaceBlock").performed += OnPlaceBlock;
+
+            actions.FindActionMap("PlayerInventory").FindAction("ItemSlotOne").performed += OnItemSlotOne;
+            actions.FindActionMap("PlayerInventory").FindAction("ItemSlotTwo").performed += OnItemSlotTwo;
+            actions.FindActionMap("PlayerInventory").FindAction("ItemSlotThree").performed += OnItemSlotThree;
+            actions.FindActionMap("PlayerInventory").FindAction("ItemSlotFour").performed += OnItemSlotFour;
+            actions.FindActionMap("PlayerInventory").FindAction("ItemSlotFive").performed += OnItemSlotFive;
+            actions.FindActionMap("PlayerInventory").FindAction("ItemSlotSix").performed += OnItemSlotSix;
+
             playerManager = GetComponent<PlayerManager>();
+            inventorySlotManager = FindObjectOfType<InventorySlotManager>();
+
         }        // Update is called once per frame
         void Update()
         {
@@ -73,16 +84,48 @@ namespace NB
             playerManager.HandlePlaceBlock();
         }
 
+        private void OnItemSlotOne(InputAction.CallbackContext context)
+        {
+            inventorySlotManager.SelectInventorySlot(0);
+        }
+
+        private void OnItemSlotTwo(InputAction.CallbackContext context)
+        {
+            inventorySlotManager.SelectInventorySlot(1);
+        }
+
+        private void OnItemSlotThree(InputAction.CallbackContext context)
+        {
+            inventorySlotManager.SelectInventorySlot(2);
+        }
+
+        private void OnItemSlotFour(InputAction.CallbackContext context)
+        {
+            inventorySlotManager.SelectInventorySlot(3);
+        }
+
+        private void OnItemSlotFive(InputAction.CallbackContext context)
+        {
+            inventorySlotManager.SelectInventorySlot(4);
+        }
+
+        private void OnItemSlotSix(InputAction.CallbackContext context)
+        {
+            inventorySlotManager.SelectInventorySlot(5);
+        }
+
         void OnEnable()
         {
             actions.FindActionMap("PlayerMovement").Enable();
             actions.FindActionMap("PlayerActions").Enable();
-
+            actions.FindActionMap("PlayerInventory").Enable();
         }
         void OnDisable()
         {
             actions.FindActionMap("PlayerMovement").Disable();
             actions.FindActionMap("PlayerActions").Disable();
+            actions.FindActionMap("PlayerInventory").Disable();
+
         }
     }
 }

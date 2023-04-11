@@ -9,7 +9,6 @@ namespace NB
         public Sprite itemIcon;
         public int stackedInventoryCount;
         public string itemName;
-
-
+        public GameObject itemPrefab;
     }
 }

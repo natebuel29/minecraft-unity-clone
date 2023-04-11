@@ -51,17 +51,21 @@ namespace NB
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             if (Physics.Raycast(ray, out RaycastHit hit, 5))
             {
-                Vector3 pos = hit.point;
-                pos += hit.normal * 0.1f;
-                Vector3 gridPosition = new Vector3(
-                    Mathf.RoundToInt(pos.x),
-                    Mathf.RoundToInt(pos.y),
-                    Mathf.RoundToInt(pos.z)
-                );
-                gridPosition.y += 0.3f;
-                Instantiate(block, gridPosition, Quaternion.identity);
-            }
+                Item inventoryItem = inventorySlotManager.RemoveItemFromSelected();
+                if (inventoryItem != null)
+                {
 
+                    Vector3 pos = hit.point;
+                    pos += hit.normal * 0.1f;
+                    Vector3 gridPosition = new Vector3(
+                        Mathf.RoundToInt(pos.x),
+                        Mathf.RoundToInt(pos.y),
+                        Mathf.RoundToInt(pos.z)
+                    );
+                    gridPosition.y += 0.3f;
+                    Instantiate(block, gridPosition, Quaternion.identity);
+                }
+            }
         }
 
         public void HandleMineBlock()

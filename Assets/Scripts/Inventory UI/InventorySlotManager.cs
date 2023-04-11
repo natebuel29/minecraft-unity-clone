@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,9 @@ namespace NB
         //Remove item
         //remove item from highlighted inventory slot 
         // must contain an item
-        //
+
         public InventoryItemSlot[] inventoryItemSlots;
+        public int selectedIndex = -99;
 
         private void Awake()
         {
@@ -58,11 +60,75 @@ namespace NB
                 {
                     if (itemSlot.isSlotTaken == false)
                     {
+                        if (IsInventoryEmpty())
+                        {
+                            itemSlot.SetOutlineColor(Color.cyan);
+                            selectedIndex = 0;
+                        }
                         itemSlot.SetItem(item);
                         break;
                     }
                 }
             }
+        }
+
+        public Item RemoveItemFromSelected()
+        {
+            if (IsInventoryEmpty())
+            {
+                return null;
+            }
+            else
+            {
+                InventoryItemSlot currentSlot = inventoryItemSlots[selectedIndex];
+                Item currentItem = currentSlot.slotItem;
+                currentSlot.RemoveItem();
+                if (!currentSlot.isSlotTaken)
+                {
+                    SelectFirstTakenSlot();
+                    currentSlot.SetOutlineColor(Color.gray);
+                }
+                return currentItem;
+            }
+        }
+
+        private void SelectFirstTakenSlot()
+        {
+            for (int i = 0; i < inventoryItemSlots.Length; i++)
+            {
+                InventoryItemSlot currentSlot = inventoryItemSlots[i];
+                if (currentSlot.isSlotTaken)
+                {
+                    currentSlot.SetOutlineColor(Color.cyan);
+                    selectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        public void SelectInventorySlot(int index)
+        {
+            InventoryItemSlot desiredSlot = inventoryItemSlots[index];
+            if (desiredSlot.isSlotTaken)
+            {
+                InventoryItemSlot currentSelected = inventoryItemSlots[selectedIndex];
+                currentSelected.SetOutlineColor(Color.gray);
+                desiredSlot.SetOutlineColor(Color.cyan);
+                selectedIndex = index;
+            }
+        }
+
+        public bool IsInventoryEmpty()
+        {
+            foreach (InventoryItemSlot itemSlot in inventoryItemSlots)
+            {
+                if (itemSlot.isSlotTaken == true)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

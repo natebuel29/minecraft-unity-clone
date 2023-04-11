@@ -13,6 +13,9 @@ namespace NB
         public Image itemImage;
         public Text itemCountText;
 
+        public GameObject outlineGameObject;
+        public Image[] itemSlotOutlines;
+
 
         private void Awake()
         {
@@ -20,6 +23,8 @@ namespace NB
             slotItem = null;
             slotItemCount = 0;
             itemCountText.enabled = false;
+            itemSlotOutlines = outlineGameObject.GetComponentsInChildren<Image>();
+            SetOutlineColor(Color.gray);
         }
 
         public void SetItem(Item item)
@@ -71,5 +76,12 @@ namespace NB
             itemCountText.text = this.slotItemCount.ToString();
         }
 
+        public void SetOutlineColor(Color color)
+        {
+            foreach (Image image in itemSlotOutlines)
+            {
+                image.color = color;
+            }
+        }
     }
 }

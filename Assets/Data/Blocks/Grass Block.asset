@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Grass Block
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 33e30f80e288626418036a8bfe2f70bb, type: 3}
-  stackedInventoryCount: 20
+  stackedInventoryCount: 5
   itemName: GrassBlock
+  itemPrefab: {fileID: 1765671734275586126, guid: f908eb306eec89f4797327f36b79ccd3, type: 3}
   blockIcon: {fileID: 21300000, guid: 33e30f80e288626418036a8bfe2f70bb, type: 3}
   blockName: GrassBlock
   blockPrefab: {fileID: 1765671734275586126, guid: f908eb306eec89f4797327f36b79ccd3, type: 3}
-  stackedInventoryCount: 20
